@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random++ Compiler</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-icon">R+</div>
+      <div>
+        <h1>Random++ Compiler</h1>
+        <div class="tagline">A language with all Python syntax &mdash; compiled in your browser</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" id="docsBtn" title="Language Docs">
+        &#128214; Docs
+      </button>
+      <button class="btn" id="examplesBtn" title="Example Programs">
+        &#128221; Examples
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-container">
+
+    <!-- Editor Panel -->
+    <div class="editor-panel">
+      <div class="panel-header">
+        <span class="panel-title">Editor &mdash; main.rpp</span>
+        <div class="panel-actions">
+          <button class="btn" id="clearCodeBtn" title="Clear Editor">Clear</button>
+          <button class="btn btn-primary" id="runBtn" title="Run (Ctrl+Enter)">
+            &#9654; Run
+          </button>
+        </div>
+      </div>
+      <div class="editor-wrapper">
+        <div class="line-numbers" id="lineNumbers"></div>
+        <textarea class="code-editor" id="codeEditor" spellcheck="false"
+          placeholder="# Write your Random++ code here...&#10;# Press Ctrl+Enter to run&#10;&#10;print(&quot;Hello, Random++!&quot;)"></textarea>
+      </div>
+    </div>
+
+    <!-- Output Panel -->
+    <div class="output-panel">
+      <div class="panel-header">
+        <span class="panel-title">Output</span>
+        <div class="panel-actions">
+          <button class="btn btn-danger" id="clearBtn" title="Clear Output">Clear</button>
+        </div>
+      </div>
+      <div class="output-wrapper" id="output">
+        <div class="output-line system">Random++ Compiler v1.0 &mdash; Ready</div>
+        <div class="output-line system">Press Ctrl+Enter or click Run to execute your code.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <div class="status-left">
+      <span class="status-indicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Ready</span>
+      </span>
+      <span>Random++ v1.0</span>
+    </div>
+    <div class="status-right">
+      <span id="lineCount">Ln 1</span>
+      <span id="charCount">Ch 0</span>
+      <span>UTF-8</span>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Examples Drawer -->
+  <div class="examples-drawer" id="examplesDrawer">
+    <div class="drawer-header">
+      <h2>Example Programs</h2>
+      <button class="btn" id="closeExamples">&times; Close</button>
+    </div>
+    <div class="drawer-body" id="examplesList"></div>
+  </div>
+
+  <!-- Docs Drawer -->
+  <div class="docs-drawer" id="docsDrawer">
+    <div class="drawer-header">
+      <h2>Random++ Language Reference</h2>
+      <button class="btn" id="closeDocs">&times; Close</button>
+    </div>
+    <div class="drawer-body">
+
+      <div class="docs-section">
+        <h3>About Random++</h3>
+        <p>Random++ is a programming language that uses Python syntax, compiled and executed entirely in your browser. It supports variables, functions, classes, list comprehensions, error handling, and much more.</p>
+      </div>
+
+      <div class="docs-section">
+        <h3>Data Types</h3>
+        <p>Random++ supports the following types:</p>
+        <pre>
+# Numbers
+x = 42          # int
+y = 3.14        # float
+z = 0xFF        # hex literal
+b = 0b1010      # binary literal
+
+# Strings
+name = "Hello"
+multi = """triple
+quoted string"""
+greeting = f"Hi, {name}!"
+
+# Boolean & None
+flag = True
+empty = None
+
+# Collections
+my_list = [1, 2, 3]
+my_dict = {"key": "value"}
+my_set = {1, 2, 3}
+my_tuple = (1, 2, 3)</pre>
+      </div>
+
+      <div class="docs-section">
+        <h3>Control Flow</h3>
+        <pre>
+# If/elif/else
+if x > 0:
+    print("positive")
+elif x == 0:
+    print("zero")
+else:
+    print("negative")
+
+# While loop
+while condition:
+    do_something()
+
+# For loop
+for item in collection:
+    process(item)
+
+for i in range(10):
+    print(i)
+
+# Break and continue
+for i in range(100):
+    if i == 5:
+        break
+    if i % 2 == 0:
+        continue
+    print(i)</pre>
+      </div>
+
+      <div class="docs-section">
+        <h3>Functions</h3>
+        <pre>
+# Basic function
+def greet(name):
+    return f"Hello, {name}!"
+
+# Default parameters
+def power(base, exp=2):
+    return base ** exp
+
+# *args and **kwargs
+def flexible(*args, **kwargs):
+    print(args)
+    print(kwargs)
+
+# Lambda
+square = lambda x: x ** 2
+
+# Recursion
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)</pre>
+      </div>
+
+      <div class="docs-section">
+        <h3>Classes</h3>
+        <pre>
+class Animal:
+    def __init__(self, name, sound):
+        self.name = name
+        self.sound = sound
+
+    def speak(self):
+        return f"{self.name}: {self.sound}!"
+
+class Dog(Animal):
+    def __init__(self, name):
+        self.name = name
+        self.sound = "Woof"
+
+dog = Dog("Rex")
+print(dog.speak())</pre>
+      </div>
+
+      <div class="docs-section">
+        <h3>List Comprehensions</h3>
+        <pre>
+# Basic
+squares = [x**2 for x in range(10)]
+
+# With condition
+evens = [x for x in range(20) if x % 2 == 0]
+
+# Dict comprehension
+scores = {name: len(name) for name in names}
+
+# Ternary expression
+result = "yes" if condition else "no"</pre>
+      </div>
+
+      <div class="docs-section">
+        <h3>Error Handling</h3>
+        <pre>
+try:
+    risky_operation()
+except Exception as e:
+    print(f"Error: {e}")
+finally:
+    cleanup()
+
+# Raise exceptions
+raise "Something went wrong"
+
+# Assert
+assert x > 0, "x must be positive"</pre>
+      </div>
+
+      <div class="docs-section">
+        <h3>Built-in Functions</h3>
+        <p><code>print()</code> <code>input()</code> <code>len()</code> <code>range()</code> <code>type()</code></p>
+        <p><code>int()</code> <code>float()</code> <code>str()</code> <code>bool()</code> <code>list()</code> <code>dict()</code> <code>set()</code> <code>tuple()</code></p>
+        <p><code>abs()</code> <code>max()</code> <code>min()</code> <code>sum()</code> <code>round()</code> <code>pow()</code></p>
+        <p><code>sorted()</code> <code>reversed()</code> <code>enumerate()</code> <code>zip()</code> <code>map()</code> <code>filter()</code></p>
+        <p><code>any()</code> <code>all()</code> <code>chr()</code> <code>ord()</code> <code>hex()</code> <code>bin()</code> <code>oct()</code></p>
+        <p><code>isinstance()</code> <code>hasattr()</code> <code>repr()</code> <code>hash()</code> <code>id()</code></p>
+      </div>
+
+      <div class="docs-section">
+        <h3>String Methods</h3>
+        <p><code>.upper()</code> <code>.lower()</code> <code>.strip()</code> <code>.split()</code> <code>.join()</code></p>
+        <p><code>.replace()</code> <code>.find()</code> <code>.count()</code> <code>.startswith()</code> <code>.endswith()</code></p>
+        <p><code>.title()</code> <code>.capitalize()</code> <code>.isdigit()</code> <code>.isalpha()</code> <code>.format()</code></p>
+      </div>
+
+      <div class="docs-section">
+        <h3>List Methods</h3>
+        <p><code>.append()</code> <code>.extend()</code> <code>.insert()</code> <code>.remove()</code> <code>.pop()</code></p>
+        <p><code>.sort()</code> <code>.reverse()</code> <code>.index()</code> <code>.count()</code> <code>.copy()</code> <code>.clear()</code></p>
+      </div>
+
+      <div class="docs-section">
+        <h3>Dict Methods</h3>
+        <p><code>.keys()</code> <code>.values()</code> <code>.items()</code> <code>.get()</code> <code>.pop()</code></p>
+        <p><code>.update()</code> <code>.setdefault()</code> <code>.copy()</code> <code>.clear()</code></p>
+      </div>
+
+      <div class="docs-section">
+        <h3>Modules</h3>
+        <pre>
+# Math module
+import math
+math.pi        # 3.14159...
+math.sqrt(16)  # 4.0
+math.factorial(5)  # 120
+
+# Random module
+import random
+random.randint(1, 100)
+random.choice(["a", "b", "c"])
+random.shuffle(my_list)</pre>
+      </div>
+
+      <div class="docs-section">
+        <h3>Keyboard Shortcuts</h3>
+        <p><code>Ctrl+Enter</code> &mdash; Run code</p>
+        <p><code>Tab</code> &mdash; Indent (4 spaces)</p>
+        <p><code>Shift+Tab</code> &mdash; Dedent</p>
+        <p><code>Enter</code> &mdash; Auto-indent (adds indent after <code>:</code>)</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="lexer.js"></script>
+  <script src="parser.js"></script>
+  <script src="interpreter.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
