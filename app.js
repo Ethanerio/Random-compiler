@@ -512,4 +512,12 @@ class RandomPPApp {
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
   window.app = new RandomPPApp();
+
+  // Load code from tutorial "Try it" buttons
+  const tryCode = localStorage.getItem('tryCode');
+  if (tryCode) {
+    document.getElementById('codeEditor').value = tryCode;
+    localStorage.removeItem('tryCode');
+    window.app.updateLineNumbers();
+  }
 });
