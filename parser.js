@@ -76,24 +76,24 @@ class Parser {
     switch (token.type) {
       case TokenType.KEYWORD:
         switch (token.value) {
-          case 'if': return this.parseIf();
-          case 'while': return this.parseWhile();
-          case 'for': return this.parseFor();
-          case 'def': return this.parseFunctionDef();
-          case 'class': return this.parseClass();
-          case 'return': return this.parseReturn();
-          case 'print': return this.parsePrint();
-          case 'import': return this.parseImport();
-          case 'from': return this.parseFromImport();
-          case 'break': this.advance(); this.expectNewline(); return new ASTNode('Break');
-          case 'continue': this.advance(); this.expectNewline(); return new ASTNode('Continue');
-          case 'pass': this.advance(); this.expectNewline(); return new ASTNode('Pass');
-          case 'try': return this.parseTry();
-          case 'raise': return this.parseRaise();
-          case 'with': return this.parseWith();
-          case 'del': return this.parseDel();
-          case 'assert': return this.parseAssert();
-          case 'global': return this.parseGlobal();
+          case 'bruh': return this.parseIf();
+          case 'grind': return this.parseWhile();
+          case 'vibe': return this.parseFor();
+          case 'cook': return this.parseFunctionDef();
+          case 'blueprint': return this.parseClass();
+          case 'serve': return this.parseReturn();
+          case 'yeet': return this.parsePrint();
+          case 'steal': return this.parseImport();
+          case 'yoink': return this.parseFromImport();
+          case 'bail': this.advance(); this.expectNewline(); return new ASTNode('Break');
+          case 'skip': this.advance(); this.expectNewline(); return new ASTNode('Continue');
+          case 'chill': this.advance(); this.expectNewline(); return new ASTNode('Pass');
+          case 'yolo': return this.parseTry();
+          case 'tantrum': return this.parseRaise();
+          case 'using': return this.parseWith();
+          case 'toss': return this.parseDel();
+          case 'betcha': return this.parseAssert();
+          case 'worldwide': return this.parseGlobal();
           default:
             return this.parseExpressionStatement();
         }
@@ -128,13 +128,13 @@ class Parser {
   }
 
   parseIf() {
-    this.expect(TokenType.KEYWORD, 'if');
+    this.expect(TokenType.KEYWORD, 'bruh');
     const test = this.parseExpression();
     const body = this.parseBlock();
     const orelse = [];
 
     this.skipNewlines();
-    while (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'elif') {
+    while (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'sus') {
       this.advance();
       const elifTest = this.parseExpression();
       const elifBody = this.parseBlock();
@@ -142,7 +142,7 @@ class Parser {
       this.skipNewlines();
     }
 
-    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'else') {
+    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'nah') {
       this.advance();
       const elseBody = this.parseBlock();
       // Nest the else into the deepest elif
@@ -165,16 +165,16 @@ class Parser {
   }
 
   parseWhile() {
-    this.expect(TokenType.KEYWORD, 'while');
+    this.expect(TokenType.KEYWORD, 'grind');
     const test = this.parseExpression();
     const body = this.parseBlock();
     return new ASTNode('While', { test, body });
   }
 
   parseFor() {
-    this.expect(TokenType.KEYWORD, 'for');
+    this.expect(TokenType.KEYWORD, 'vibe');
     const target = this.parseTarget();
-    this.expect(TokenType.IN, 'in');
+    this.expect(TokenType.IN, 'thru');
     const iter = this.parseExpression();
     const body = this.parseBlock();
     return new ASTNode('For', { target, iter, body });
@@ -199,7 +199,7 @@ class Parser {
   }
 
   parseFunctionDef() {
-    this.expect(TokenType.KEYWORD, 'def');
+    this.expect(TokenType.KEYWORD, 'cook');
     const name = this.expect(TokenType.IDENTIFIER).value;
     this.expect(TokenType.LPAREN);
     const params = this.parseParams();
@@ -234,7 +234,7 @@ class Parser {
   }
 
   parseClass() {
-    this.expect(TokenType.KEYWORD, 'class');
+    this.expect(TokenType.KEYWORD, 'blueprint');
     const name = this.expect(TokenType.IDENTIFIER).value;
     let bases = [];
     if (this.match(TokenType.LPAREN)) {
@@ -250,7 +250,7 @@ class Parser {
   }
 
   parseReturn() {
-    this.expect(TokenType.KEYWORD, 'return');
+    this.expect(TokenType.KEYWORD, 'serve');
     let value = null;
     if (this.peek() && this.peek().type !== TokenType.NEWLINE && this.peek().type !== TokenType.EOF) {
       value = this.parseExpressionList();
@@ -260,7 +260,7 @@ class Parser {
   }
 
   parsePrint() {
-    const token = this.advance(); // 'print'
+    const token = this.advance(); // 'yeet'
     // Check if it's being used as a function call: print(...)
     if (this.peek() && this.peek().type === TokenType.LPAREN) {
       this.advance(); // skip (
@@ -298,12 +298,12 @@ class Parser {
   }
 
   parseImport() {
-    this.advance(); // 'import'
+    this.advance(); // 'steal'
     const modules = [];
     do {
       const name = this.expect(TokenType.IDENTIFIER).value;
       let alias = null;
-      if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'as') {
+      if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'aka') {
         this.advance();
         alias = this.expect(TokenType.IDENTIFIER).value;
       }
@@ -314,14 +314,14 @@ class Parser {
   }
 
   parseFromImport() {
-    this.advance(); // 'from'
+    this.advance(); // 'yoink'
     const module = this.expect(TokenType.IDENTIFIER).value;
-    this.expect(TokenType.KEYWORD, 'import');
+    this.expect(TokenType.KEYWORD, 'steal');
     const names = [];
     do {
       const name = this.expect(TokenType.IDENTIFIER).value;
       let alias = null;
-      if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'as') {
+      if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'aka') {
         this.advance();
         alias = this.expect(TokenType.IDENTIFIER).value;
       }
@@ -332,19 +332,19 @@ class Parser {
   }
 
   parseTry() {
-    this.expect(TokenType.KEYWORD, 'try');
+    this.expect(TokenType.KEYWORD, 'yolo');
     const body = this.parseBlock();
     const handlers = [];
     let finallyBody = null;
 
     this.skipNewlines();
-    while (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'except') {
+    while (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'oof') {
       this.advance();
       let exceptionType = null;
       let name = null;
       if (this.peek() && this.peek().type !== TokenType.COLON) {
         exceptionType = this.expect(TokenType.IDENTIFIER).value;
-        if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'as') {
+        if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'aka') {
           this.advance();
           name = this.expect(TokenType.IDENTIFIER).value;
         }
@@ -354,7 +354,7 @@ class Parser {
       this.skipNewlines();
     }
 
-    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'finally') {
+    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'anyway') {
       this.advance();
       finallyBody = this.parseBlock();
     }
@@ -363,7 +363,7 @@ class Parser {
   }
 
   parseRaise() {
-    this.advance(); // 'raise'
+    this.advance(); // 'tantrum'
     let exception = null;
     if (this.peek() && this.peek().type !== TokenType.NEWLINE && this.peek().type !== TokenType.EOF) {
       exception = this.parseExpression();
@@ -373,10 +373,10 @@ class Parser {
   }
 
   parseWith() {
-    this.advance(); // 'with'
+    this.advance(); // 'using'
     const expr = this.parseExpression();
     let name = null;
-    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'as') {
+    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'aka') {
       this.advance();
       name = this.expect(TokenType.IDENTIFIER).value;
     }
@@ -385,14 +385,14 @@ class Parser {
   }
 
   parseDel() {
-    this.advance(); // 'del'
+    this.advance(); // 'toss'
     const target = this.parseExpression();
     this.expectNewline();
     return new ASTNode('Del', { target });
   }
 
   parseAssert() {
-    this.advance(); // 'assert'
+    this.advance(); // 'betcha'
     const test = this.parseExpression();
     let msg = null;
     if (this.match(TokenType.COMMA)) {
@@ -403,7 +403,7 @@ class Parser {
   }
 
   parseGlobal() {
-    this.advance(); // 'global'
+    this.advance(); // 'worldwide'
     const names = [];
     do {
       names.push(this.expect(TokenType.IDENTIFIER).value);
@@ -481,10 +481,10 @@ class Parser {
 
   parseTernary() {
     let expr = this.parseLambda();
-    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'if') {
+    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'bruh') {
       this.advance();
       const test = this.parseOr();
-      this.expect(TokenType.KEYWORD, 'else');
+      this.expect(TokenType.KEYWORD, 'nah');
       const alt = this.parseExpression();
       return new ASTNode('Ternary', { body: expr, test, orelse: alt });
     }
@@ -492,7 +492,7 @@ class Parser {
   }
 
   parseLambda() {
-    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'lambda') {
+    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'quickmaf') {
       this.advance();
       const params = [];
       if (this.peek() && this.peek().type !== TokenType.COLON) {
@@ -716,13 +716,13 @@ class Parser {
         return new ASTNode('Identifier', { name: token.value });
 
       case TokenType.KEYWORD:
-        if (token.value === 'input') {
+        if (token.value === 'askbro') {
           return this.parseInput();
         }
-        if (token.value === 'lambda') {
+        if (token.value === 'quickmaf') {
           return this.parseLambda();
         }
-        if (token.value === 'not') {
+        if (token.value === 'nope') {
           return this.parseNot();
         }
         this.advance();
@@ -750,7 +750,7 @@ class Parser {
   }
 
   parseInput() {
-    this.advance(); // 'input'
+    this.advance(); // 'askbro'
     this.expect(TokenType.LPAREN);
     let prompt = null;
     if (this.peek() && this.peek().type !== TokenType.RPAREN) {
@@ -772,7 +772,7 @@ class Parser {
     const first = this.parseExpression();
 
     // Check for list comprehension
-    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'for') {
+    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'vibe') {
       return this.parseListComprehension(first);
     }
 
@@ -786,12 +786,12 @@ class Parser {
   }
 
   parseListComprehension(expr) {
-    this.expect(TokenType.KEYWORD, 'for');
+    this.expect(TokenType.KEYWORD, 'vibe');
     const target = this.parseTarget();
-    this.expect(TokenType.IN, 'in');
+    this.expect(TokenType.IN, 'thru');
     const iter = this.parseExpression();
     let condition = null;
-    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'if') {
+    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'bruh') {
       this.advance();
       condition = this.parseExpression();
     }
@@ -814,13 +814,13 @@ class Parser {
       const pairs = [{ key: first, value }];
 
       // Check for dict comprehension
-      if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'for') {
-        this.expect(TokenType.KEYWORD, 'for');
+      if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'vibe') {
+        this.expect(TokenType.KEYWORD, 'vibe');
         const target = this.parseTarget();
-        this.expect(TokenType.IN, 'in');
+        this.expect(TokenType.IN, 'thru');
         const iter = this.parseExpression();
         let condition = null;
-        if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'if') {
+        if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'bruh') {
           this.advance();
           condition = this.parseExpression();
         }

@@ -1,4 +1,4 @@
-// Random++ Lexer - Tokenizer for Python-like syntax
+// Random++ Lexer - Tokenizer for the Random++ language
 // Converts source code into a stream of tokens
 
 const TokenType = {
@@ -66,21 +66,21 @@ const TokenType = {
 };
 
 const KEYWORDS = new Set([
-  'if', 'elif', 'else',
-  'while', 'for', 'in',
-  'def', 'return', 'class',
-  'and', 'or', 'not',
-  'True', 'False', 'None',
-  'print', 'input',
-  'break', 'continue', 'pass',
-  'import', 'from', 'as',
-  'try', 'except', 'finally', 'raise',
-  'with',
-  'lambda',
-  'global',
-  'del',
-  'assert',
-  'is',
+  'bruh', 'sus', 'nah',
+  'grind', 'vibe', 'thru',
+  'cook', 'serve', 'blueprint',
+  'also', 'unless', 'nope',
+  'nocap', 'cap', 'ghost',
+  'yeet', 'askbro',
+  'bail', 'skip', 'chill',
+  'steal', 'yoink', 'aka',
+  'yolo', 'oof', 'anyway', 'tantrum',
+  'using',
+  'quickmaf',
+  'worldwide',
+  'toss',
+  'betcha',
+  'literally',
 ]);
 
 class Token {
@@ -468,34 +468,34 @@ class Lexer {
       name += this.advance();
     }
 
-    // Check for boolean and None
-    if (name === 'True' || name === 'False') {
-      this.tokens.push(new Token(TokenType.BOOLEAN, name === 'True', startLine, startCol));
-    } else if (name === 'None') {
+    // Check for boolean and None (Random++ style)
+    if (name === 'nocap' || name === 'cap') {
+      this.tokens.push(new Token(TokenType.BOOLEAN, name === 'nocap', startLine, startCol));
+    } else if (name === 'ghost') {
       this.tokens.push(new Token(TokenType.NONE, null, startLine, startCol));
-    } else if (name === 'and') {
-      this.tokens.push(new Token(TokenType.AND, 'and', startLine, startCol));
-    } else if (name === 'or') {
-      this.tokens.push(new Token(TokenType.OR, 'or', startLine, startCol));
-    } else if (name === 'not') {
-      // Check for "not in"
+    } else if (name === 'also') {
+      this.tokens.push(new Token(TokenType.AND, 'also', startLine, startCol));
+    } else if (name === 'unless') {
+      this.tokens.push(new Token(TokenType.OR, 'unless', startLine, startCol));
+    } else if (name === 'nope') {
+      // Check for "nope thru" (not in)
       this.skipSpaces();
-      if (this.peekWord() === 'in') {
+      if (this.peekWord() === 'thru') {
         this.readWord();
-        this.tokens.push(new Token(TokenType.NOT_IN, 'not in', startLine, startCol));
+        this.tokens.push(new Token(TokenType.NOT_IN, 'nope thru', startLine, startCol));
       } else {
-        this.tokens.push(new Token(TokenType.NOT, 'not', startLine, startCol));
+        this.tokens.push(new Token(TokenType.NOT, 'nope', startLine, startCol));
       }
-    } else if (name === 'in') {
-      this.tokens.push(new Token(TokenType.IN, 'in', startLine, startCol));
-    } else if (name === 'is') {
-      // Check for "is not"
+    } else if (name === 'thru') {
+      this.tokens.push(new Token(TokenType.IN, 'thru', startLine, startCol));
+    } else if (name === 'literally') {
+      // Check for "literally nope" (is not)
       this.skipSpaces();
-      if (this.peekWord() === 'not') {
+      if (this.peekWord() === 'nope') {
         this.readWord();
-        this.tokens.push(new Token(TokenType.IS_NOT, 'is not', startLine, startCol));
+        this.tokens.push(new Token(TokenType.IS_NOT, 'literally nope', startLine, startCol));
       } else {
-        this.tokens.push(new Token(TokenType.IS, 'is', startLine, startCol));
+        this.tokens.push(new Token(TokenType.IS, 'literally', startLine, startCol));
       }
     } else if (KEYWORDS.has(name)) {
       this.tokens.push(new Token(TokenType.KEYWORD, name, startLine, startCol));

@@ -5,8 +5,8 @@ const EXAMPLES = [
     title: 'Hello World',
     desc: 'The classic first program',
     code: `# Hello World in Random++
-print("Hello, World!")
-print("Welcome to Random++!")`,
+yeet("Hello, World!")
+yeet("Welcome to Random++!")`,
   },
   {
     title: 'Variables & Types',
@@ -14,128 +14,128 @@ print("Welcome to Random++!")`,
     code: `# Variables and data types
 name = "Random++"
 version = 1.0
-is_awesome = True
-features = ["fast", "fun", "pythonic"]
+is_awesome = nocap
+features = ["fast", "fun", "chaotic"]
 
-print(f"Language: {name}")
-print(f"Version: {version}")
-print(f"Awesome: {is_awesome}")
-print(f"Features: {features}")
-print(f"Type of name: {type(name)}")`,
+yeet(f"Language: {name}")
+yeet(f"Version: {version}")
+yeet(f"Awesome: {is_awesome}")
+yeet(f"Features: {features}")
+yeet(f"Type of name: {type(name)}")`,
   },
   {
     title: 'FizzBuzz',
     desc: 'Classic coding challenge',
     code: `# FizzBuzz in Random++
-for i in range(1, 31):
-    if i % 15 == 0:
-        print("FizzBuzz")
-    elif i % 3 == 0:
-        print("Fizz")
-    elif i % 5 == 0:
-        print("Buzz")
-    else:
-        print(i)`,
+vibe i thru range(1, 31):
+    bruh i % 15 == 0:
+        yeet("FizzBuzz")
+    sus i % 3 == 0:
+        yeet("Fizz")
+    sus i % 5 == 0:
+        yeet("Buzz")
+    nah:
+        yeet(i)`,
   },
   {
     title: 'Functions',
-    desc: 'Defining and calling functions',
+    desc: 'Cooking up some functions',
     code: `# Functions in Random++
-def greet(name, greeting="Hello"):
-    return f"{greeting}, {name}!"
+cook greet(name, greeting="Hello"):
+    serve f"{greeting}, {name}!"
 
-def factorial(n):
-    if n <= 1:
-        return 1
-    return n * factorial(n - 1)
+cook factorial(n):
+    bruh n <= 1:
+        serve 1
+    serve n * factorial(n - 1)
 
-def fibonacci(n):
+cook fibonacci(n):
     a, b = 0, 1
     result = []
-    for i in range(n):
+    vibe i thru range(n):
         result.append(a)
         a, b = b, a + b
-    return result
+    serve result
 
-print(greet("World"))
-print(greet("Random++", "Welcome to"))
-print(f"5! = {factorial(5)}")
-print(f"10! = {factorial(10)}")
-print(f"Fibonacci(10): {fibonacci(10)}")`,
+yeet(greet("World"))
+yeet(greet("Random++", "Welcome to"))
+yeet(f"5! = {factorial(5)}")
+yeet(f"10! = {factorial(10)}")
+yeet(f"Fibonacci(10): {fibonacci(10)}")`,
   },
   {
     title: 'List Comprehensions',
-    desc: 'Powerful one-liner data transformations',
+    desc: 'One-liner vibe checks',
     code: `# List comprehensions
-squares = [x ** 2 for x in range(10)]
-print(f"Squares: {squares}")
+squares = [x ** 2 vibe x thru range(10)]
+yeet(f"Squares: {squares}")
 
-evens = [x for x in range(20) if x % 2 == 0]
-print(f"Evens: {evens}")
+evens = [x vibe x thru range(20) bruh x % 2 == 0]
+yeet(f"Evens: {evens}")
 
 matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-flat = [x for row in matrix for x in row]
-print(f"Flattened: {flat}")
+flat = [x vibe row thru matrix vibe x thru row]
+yeet(f"Flattened: {flat}")
 
 words = ["hello", "world", "random", "plus"]
-upper = [w.upper() for w in words]
-print(f"Uppercase: {upper}")`,
+upper = [w.upper() vibe w thru words]
+yeet(f"Uppercase: {upper}")`,
   },
   {
-    title: 'Classes & OOP',
+    title: 'Blueprints & OOP',
     desc: 'Object-oriented programming',
-    code: `# Classes in Random++
-class Animal:
-    def __init__(self, name, sound):
+    code: `# Blueprints (classes) in Random++
+blueprint Animal:
+    cook __init__(self, name, sound):
         self.name = name
         self.sound = sound
 
-    def speak(self):
-        return f"{self.name} says {self.sound}!"
+    cook speak(self):
+        serve f"{self.name} says {self.sound}!"
 
-    def info(self):
-        return f"I am a {self.name}"
+    cook info(self):
+        serve f"I am a {self.name}"
 
-class Dog(Animal):
-    def __init__(self, name):
+blueprint Dog(Animal):
+    cook __init__(self, name):
         self.name = name
         self.sound = "Woof"
         self.tricks = []
 
-    def learn_trick(self, trick):
+    cook learn_trick(self, trick):
         self.tricks.append(trick)
-        return f"{self.name} learned {trick}!"
+        serve f"{self.name} learned {trick}!"
 
 dog = Dog("Buddy")
-print(dog.speak())
-print(dog.learn_trick("sit"))
-print(dog.learn_trick("shake"))
-print(f"{dog.name}'s tricks: {dog.tricks}")
+yeet(dog.speak())
+yeet(dog.learn_trick("sit"))
+yeet(dog.learn_trick("shake"))
+yeet(f"{dog.name}'s tricks: {dog.tricks}")
 
 cat = Animal("Whiskers", "Meow")
-print(cat.speak())`,
+yeet(cat.speak())`,
   },
   {
     title: 'String Methods',
     desc: 'Built-in string operations',
     code: `# String methods
 text = "  Hello, Random++ World!  "
-print(f"Original: '{text}'")
-print(f"Stripped: '{text.strip()}'")
-print(f"Upper: '{text.upper()}'")
-print(f"Lower: '{text.lower()}'")
-print(f"Title: '{text.title()}'")
+yeet(f"Original: '{text}'")
+yeet(f"Stripped: '{text.strip()}'")
+yeet(f"Upper: '{text.upper()}'")
+yeet(f"Lower: '{text.lower()}'")
+yeet(f"Title: '{text.title()}'")
 
 csv = "apple,banana,cherry,date"
 fruits = csv.split(",")
-print(f"Split: {fruits}")
-print(f"Joined: {' | '.join(fruits)}")
+yeet(f"Split: {fruits}")
+yeet(f"Joined: {' | '.join(fruits)}")
 
 msg = "Hello World"
-print(f"Starts with 'Hello': {msg.startswith('Hello')}")
-print(f"Ends with 'World': {msg.endswith('World')}")
-print(f"Replace: {msg.replace('World', 'Random++')}")
-print(f"Count 'l': {msg.count('l')}")`,
+yeet(f"Starts with 'Hello': {msg.startswith('Hello')}")
+yeet(f"Ends with 'World': {msg.endswith('World')}")
+yeet(f"Replace: {msg.replace('World', 'Random++')}")
+yeet(f"Count 'l': {msg.count('l')}")`,
   },
   {
     title: 'Dictionary Operations',
@@ -143,135 +143,135 @@ print(f"Count 'l': {msg.count('l')}")`,
     code: `# Dictionary operations
 scores = {"Alice": 95, "Bob": 87, "Charlie": 92, "Diana": 98}
 
-print("All scores:")
-for name, score in scores.items():
-    grade = "A" if score >= 90 else "B" if score >= 80 else "C"
-    print(f"  {name}: {score} ({grade})")
+yeet("All scores:")
+vibe name, score thru scores.items():
+    grade = "A" bruh score >= 90 nah "B" bruh score >= 80 nah "C"
+    yeet(f"  {name}: {score} ({grade})")
 
-print(f"\\nHighest: {max(scores.values())}")
-print(f"Average: {sum(scores.values()) / len(scores)}")
-print(f"Students: {scores.keys()}")
+yeet(f"\\nHighest: {max(scores.values())}")
+yeet(f"Average: {sum(scores.values()) / len(scores)}")
+yeet(f"Students: {scores.keys()}")
 
 # Dictionary comprehension
-doubled = {k: v * 2 for k, v in scores.items()}
-print(f"Doubled: {doubled}")`,
+doubled = {k: v * 2 vibe k, v thru scores.items()}
+yeet(f"Doubled: {doubled}")`,
   },
   {
     title: 'Error Handling',
-    desc: 'Try/except for graceful error handling',
+    desc: 'YOLO/oof for graceful error handling',
     code: `# Error handling
-def safe_divide(a, b):
-    try:
+cook safe_divide(a, b):
+    yolo:
         result = a / b
-        return f"{a} / {b} = {result}"
-    except Exception as e:
-        return f"Error: {e}"
+        serve f"{a} / {b} = {result}"
+    oof Exception aka e:
+        serve f"Error: {e}"
 
-print(safe_divide(10, 3))
-print(safe_divide(10, 0))
+yeet(safe_divide(10, 3))
+yeet(safe_divide(10, 0))
 
 # Custom validation
-def validate_age(age):
-    if age < 0:
-        raise "Age cannot be negative"
-    if age > 150:
-        raise "Age seems unrealistic"
-    return f"Age {age} is valid"
+cook validate_age(age):
+    bruh age < 0:
+        tantrum "Age cannot be negative"
+    bruh age > 150:
+        tantrum "Age seems unrealistic"
+    serve f"Age {age} is valid"
 
-try:
-    print(validate_age(25))
-    print(validate_age(-5))
-except Exception as e:
-    print(f"Caught: {e}")`,
+yolo:
+    yeet(validate_age(25))
+    yeet(validate_age(-5))
+oof Exception aka e:
+    yeet(f"Caught: {e}")`,
   },
   {
     title: 'Sorting & Algorithms',
     desc: 'Sorting and algorithmic operations',
     code: `# Sorting algorithms demo
-def bubble_sort(arr):
+cook bubble_sort(arr):
     n = len(arr)
-    for i in range(n):
-        for j in range(0, n - i - 1):
-            if arr[j] > arr[j + 1]:
+    vibe i thru range(n):
+        vibe j thru range(0, n - i - 1):
+            bruh arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
-    return arr
+    serve arr
 
-def binary_search(arr, target):
+cook binary_search(arr, target):
     low = 0
     high = len(arr) - 1
-    while low <= high:
+    grind low <= high:
         mid = (low + high) // 2
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
+        bruh arr[mid] == target:
+            serve mid
+        sus arr[mid] < target:
             low = mid + 1
-        else:
+        nah:
             high = mid - 1
-    return -1
+    serve -1
 
 numbers = [64, 34, 25, 12, 22, 11, 90]
-print(f"Original: {numbers}")
+yeet(f"Original: {numbers}")
 sorted_nums = bubble_sort(numbers)
-print(f"Sorted:   {sorted_nums}")
+yeet(f"Sorted:   {sorted_nums}")
 
 idx = binary_search(sorted_nums, 25)
-print(f"Found 25 at index: {idx}")
+yeet(f"Found 25 at index: {idx}")
 
 idx = binary_search(sorted_nums, 50)
-print(f"Found 50 at index: {idx}")`,
+yeet(f"Found 50 at index: {idx}")`,
   },
   {
     title: 'Math & Random',
     desc: 'Mathematical and random operations',
     code: `# Math operations
-import math
-import random
+steal math
+steal random
 
-print(f"Pi: {math.pi}")
-print(f"E: {math.e}")
-print(f"sqrt(144): {math.sqrt(144)}")
-print(f"factorial(7): {math.factorial(7)}")
-print(f"gcd(48, 18): {math.gcd(48, 18)}")
-print(f"pow(2, 10): {pow(2, 10)}")
+yeet(f"Pi: {math.pi}")
+yeet(f"E: {math.e}")
+yeet(f"sqrt(144): {math.sqrt(144)}")
+yeet(f"factorial(7): {math.factorial(7)}")
+yeet(f"gcd(48, 18): {math.gcd(48, 18)}")
+yeet(f"pow(2, 10): {pow(2, 10)}")
 
 # Random numbers
-print(f"\\nRandom int (1-100): {random.randint(1, 100)}")
-print(f"Random float: {random.random()}")
+yeet(f"\\nRandom int (1-100): {random.randint(1, 100)}")
+yeet(f"Random float: {random.random()}")
 
 colors = ["red", "green", "blue", "yellow", "purple"]
-print(f"Random choice: {random.choice(colors)}")
-print(f"Sample of 3: {random.sample(colors, 3)}")`,
+yeet(f"Random choice: {random.choice(colors)}")
+yeet(f"Sample of 3: {random.sample(colors, 3)}")`,
   },
   {
     title: 'Number Guessing Game',
     desc: 'A simple interactive game',
     code: `# Number Guessing Game (non-interactive demo)
-import random
+steal random
 
 secret = random.randint(1, 100)
-print("=== Number Guessing Game ===")
-print(f"(Secret number is {secret})")
+yeet("=== Number Guessing Game ===")
+yeet(f"(Secret number is {secret})")
 
 # Simulate AI guessing
 low = 1
 high = 100
 attempts = 0
 
-while low <= high:
+grind low <= high:
     guess = (low + high) // 2
     attempts += 1
-    
-    if guess == secret:
-        print(f"Attempt {attempts}: Guessed {guess} - Correct!")
-        break
-    elif guess < secret:
-        print(f"Attempt {attempts}: Guessed {guess} - Too low!")
+
+    bruh guess == secret:
+        yeet(f"Attempt {attempts}: Guessed {guess} - Correct!")
+        bail
+    sus guess < secret:
+        yeet(f"Attempt {attempts}: Guessed {guess} - Too low!")
         low = guess + 1
-    else:
-        print(f"Attempt {attempts}: Guessed {guess} - Too high!")
+    nah:
+        yeet(f"Attempt {attempts}: Guessed {guess} - Too high!")
         high = guess - 1
 
-print(f"\\nFound {secret} in {attempts} attempts using binary search!")`,
+yeet(f"\\nFound {secret} in {attempts} attempts using binary search!")`,
   },
 ];
 
