@@ -104,7 +104,7 @@ class Parser {
 
   expectNewline() {
     const t = this.peek();
-    if (t && t.type !== TokenType.NEWLINE && t.type !== TokenType.EOF) {
+    if (t && t.type !== TokenType.NEWLINE && t.type !== TokenType.EOF && t.type !== TokenType.DEDENT) {
       throw new ParseError(`Expected newline, got ${t.type}(${JSON.stringify(t.value)})`, t);
     }
     if (t && t.type === TokenType.NEWLINE) this.advance();

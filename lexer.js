@@ -216,17 +216,18 @@ class Lexer {
       this.readOperator();
     }
 
+    // Ensure there's a trailing NEWLINE before DEDENTs
+    if (this.tokens.length > 0 && this.tokens[this.tokens.length - 1].type !== TokenType.NEWLINE) {
+      this.tokens.push(new Token(TokenType.NEWLINE, '\\n', this.line, this.col));
+    }
+
     // Emit remaining DEDENTs
     while (this.indentStack.length > 1) {
       this.indentStack.pop();
       this.tokens.push(new Token(TokenType.DEDENT, '', this.line, this.col));
     }
 
-    // Ensure there's a trailing NEWLINE
-    if (this.tokens.length > 0 && this.tokens[this.tokens.length - 1].type !== TokenType.NEWLINE) {
-      this.tokens.push(new Token(TokenType.NEWLINE, '\\n', this.line, this.col));
-    }
-
+    this.tokens.push(new Token(TokenType.NEWLINE, '\\n', this.line, this.col));
     this.tokens.push(new Token(TokenType.EOF, '', this.line, this.col));
     return this.tokens;
   }
