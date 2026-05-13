@@ -617,6 +617,19 @@ class Interpreter {
         const target = node.target.elements[i];
         if (target.type === 'Identifier') {
           env.set(target.name, value[i]);
+        } else if (target.type === 'Subscript') {
+          const obj = this.evalExpr(target.object, env);
+          const index = this.evalExpr(target.index, env);
+          if (Array.isArray(obj)) {
+            obj[index < 0 ? obj.length + index : index] = value[i];
+          } else if (obj instanceof Map) {
+            obj.set(index, value[i]);
+          }
+        } else if (target.type === 'Attribute') {
+          const obj = this.evalExpr(target.object, env);
+          if (obj && obj._isInstance) {
+            obj.set(target.attr, value[i]);
+          }
         }
       }
     }
@@ -685,24 +698,21 @@ class Interpreter {
     if (this.isTruthy(this.evalExpr(node.test, env))) {
       return this.execBlock(node.body, env);
     }
-    for (const alt of node.orelse) {
+    return this.execElseChain(node.orelse, env);
+  }
+
+  execElseChain(orelse, env) {
+    if (!orelse || orelse.length === 0) return null;
+    for (const alt of orelse) {
       if (alt.type === 'If') {
         if (this.isTruthy(this.evalExpr(alt.test, env))) {
           return this.execBlock(alt.body, env);
         }
         if (alt.orelse && alt.orelse.length > 0) {
-          // Check nested elif/else
-          for (const inner of alt.orelse) {
-            if (inner.type === 'If') {
-              const result = this.execStmt(inner, env);
-              if (result !== undefined) return result;
-            } else {
-              return this.execStmt(inner, env);
-            }
-          }
+          return this.execElseChain(alt.orelse, env);
         }
       } else {
-        return this.execStmt(alt, env);
+        return this.execBlock(orelse, env);
       }
     }
     return null;
@@ -964,7 +974,7 @@ class Interpreter {
   }
 
   formatString(fmt, args) {
-    // Python-style % formatting
+    // %-style formatting
     if (!Array.isArray(args)) args = [args];
     let i = 0;
     return fmt.replace(/%[sdifr%]/g, (match) => {
@@ -1386,6 +1396,9 @@ class Interpreter {
   }
 
   evalListComp(node, env) {
+    if (node.generators && node.generators.length > 1) {
+      return this.evalNestedListComp(node, env);
+    }
     const result = [];
     const iter = this.evalExpr(node.iter, env);
     const items = Array.isArray(iter) ? iter : (typeof iter === 'string' ? iter.split('') : [...iter]);
@@ -1405,6 +1418,36 @@ class Interpreter {
       }
       result.push(this.evalExpr(node.expr, compEnv));
     }
+    return result;
+  }
+
+  evalNestedListComp(node, env) {
+    const result = [];
+    const compEnv = new Environment(env);
+    const gens = node.generators;
+
+    const recurse = (depth) => {
+      const gen = gens[depth];
+      const iter = this.evalExpr(gen.iter, compEnv);
+      const items = Array.isArray(iter) ? iter : (typeof iter === 'string' ? iter.split('') : [...iter]);
+      for (const item of items) {
+        if (gen.target.type === 'Identifier') {
+          compEnv.set(gen.target.name, item);
+        } else if (gen.target.type === 'TupleUnpack') {
+          for (let i = 0; i < gen.target.targets.length; i++) {
+            compEnv.set(gen.target.targets[i].name, item[i]);
+          }
+        }
+        if (gen.condition && !this.isTruthy(this.evalExpr(gen.condition, compEnv))) continue;
+        if (depth + 1 < gens.length) {
+          recurse(depth + 1);
+        } else {
+          result.push(this.evalExpr(node.expr, compEnv));
+        }
+      }
+    };
+
+    recurse(0);
     return result;
   }
 

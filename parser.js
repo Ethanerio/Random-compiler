@@ -284,7 +284,7 @@ class Parser {
       this.expectNewline();
       return new ASTNode('Print', { args, kwargs });
     } else {
-      // print without parens (Python 2 style, we'll support it)
+      // yeet without parens
       const args = [];
       if (this.peek() && this.peek().type !== TokenType.NEWLINE && this.peek().type !== TokenType.EOF) {
         args.push(this.parseExpression());
@@ -786,17 +786,25 @@ class Parser {
   }
 
   parseListComprehension(expr) {
-    this.expect(TokenType.KEYWORD, 'vibe');
-    const target = this.parseTarget();
-    this.expect(TokenType.IN, 'thru');
-    const iter = this.parseExpression();
-    let condition = null;
-    if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'bruh') {
-      this.advance();
-      condition = this.parseExpression();
+    const generators = [];
+    while (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'vibe') {
+      this.expect(TokenType.KEYWORD, 'vibe');
+      const target = this.parseTarget();
+      this.expect(TokenType.IN, 'thru');
+      const iter = this.parseOr();
+      let condition = null;
+      if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'bruh') {
+        this.advance();
+        condition = this.parseExpression();
+      }
+      generators.push({ target, iter, condition });
     }
     this.expect(TokenType.RBRACKET);
-    return new ASTNode('ListComp', { expr, target, iter, condition });
+    const first = generators[0];
+    return new ASTNode('ListComp', {
+      expr, target: first.target, iter: first.iter, condition: first.condition,
+      generators: generators.length > 1 ? generators : null
+    });
   }
 
   parseDictOrSet() {
@@ -818,7 +826,7 @@ class Parser {
         this.expect(TokenType.KEYWORD, 'vibe');
         const target = this.parseTarget();
         this.expect(TokenType.IN, 'thru');
-        const iter = this.parseExpression();
+        const iter = this.parseOr();
         let condition = null;
         if (this.peek() && this.peek().type === TokenType.KEYWORD && this.peek().value === 'bruh') {
           this.advance();
