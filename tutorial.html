@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn Random++ — Tutorial</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      display: block;
+      overflow-y: auto;
+    }
+
+    .tutorial-header {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .tutorial-header .logo h1 {
+      font-size: 18px;
+    }
+
+    .tutorial-hero {
+      text-align: center;
+      padding: 60px 24px 40px;
+      background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tutorial-hero h1 {
+      font-size: 42px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--purple), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+    }
+
+    .tutorial-hero .subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 24px;
+      line-height: 1.6;
+    }
+
+    .tutorial-hero .badge-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .badge .emoji { font-size: 15px; }
+
+    .tutorial-nav {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      position: sticky;
+      top: 61px;
+      z-index: 49;
+    }
+
+    .tutorial-nav a {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .tutorial-nav a:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .tutorial-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    .lesson {
+      margin-bottom: 48px;
+      scroll-margin-top: 120px;
+    }
+
+    .lesson-number {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+    }
+
+    .lesson h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .lesson .lesson-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .concept-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .concept-box h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .concept-box p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .concept-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .keyword-highlight {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: rgba(188, 140, 255, 0.15);
+      color: var(--purple);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .maps-to {
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin: 0 4px;
+    }
+
+    .old-keyword {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    .code-block {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 16px 0;
+      overflow: hidden;
+    }
+
+    .code-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 14px;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .code-block-header .filename {
+      font-family: var(--font-mono);
+      font-weight: 500;
+    }
+
+    .try-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .try-btn:hover {
+      background: #2ea043;
+    }
+
+    .code-block pre {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      padding: 14px 16px;
+      overflow-x: auto;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .code-block .comment { color: var(--text-secondary); }
+    .code-block .keyword { color: var(--purple); }
+    .code-block .string { color: var(--green); }
+    .code-block .number { color: var(--orange); }
+    .code-block .builtin { color: var(--accent); }
+
+    .output-preview {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin: 12px 0;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--green);
+      line-height: 1.7;
+    }
+
+    .output-preview .label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      font-family: var(--font-sans);
+    }
+
+    .tip-box {
+      background: rgba(88, 166, 255, 0.08);
+      border: 1px solid rgba(88, 166, 255, 0.3);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .tip-box strong {
+      color: var(--accent);
+    }
+
+    .warning-box {
+      background: rgba(210, 153, 34, 0.08);
+      border: 1px solid rgba(210, 153, 34, 0.3);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .warning-box strong {
+      color: var(--yellow);
+    }
+
+    .challenge-box {
+      background: rgba(63, 185, 80, 0.08);
+      border: 1px solid rgba(63, 185, 80, 0.3);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin: 20px 0;
+    }
+
+    .challenge-box h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+
+    .challenge-box p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 6px;
+    }
+
+    .challenge-box ol, .challenge-box ul {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      padding-left: 20px;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+
+    .keyword-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+    }
+
+    .keyword-table th {
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .keyword-table td {
+      padding: 8px 12px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .keyword-table td:first-child {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--purple);
+    }
+
+    .keyword-table td:nth-child(2) {
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+
+    .keyword-table td:nth-child(3) {
+      color: var(--text-secondary);
+    }
+
+    .progress-bar {
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+      height: 8px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--purple));
+      border-radius: 10px;
+      transition: width 0.3s ease;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="tutorial-header">
+    <div class="logo">
+      <div class="logo-icon">R+</div>
+      <div>
+        <h1>Random++ Tutorial</h1>
+        <div class="tagline">Learn the most unhinged language ever</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a href="index.html" class="btn">&#9654; Open Compiler</a>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="tutorial-hero">
+    <h1>Learn Random++</h1>
+    <p class="subtitle">
+      A step-by-step guide from zero to full-stack chaos.
+      Each lesson builds on the last &mdash; by the end you'll be yeeting, cooking, and vibing like a pro.
+    </p>
+    <div class="badge-row">
+      <span class="badge"><span class="emoji">&#128214;</span> 10 Lessons</span>
+      <span class="badge"><span class="emoji">&#128187;</span> Interactive Examples</span>
+      <span class="badge"><span class="emoji">&#9889;</span> Zero Setup</span>
+      <span class="badge"><span class="emoji">&#127942;</span> Challenges</span>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="tutorial-nav" id="tutorialNav">
+    <a href="#lesson-1">1. Hello World</a>
+    <a href="#lesson-2">2. Variables</a>
+    <a href="#lesson-3">3. Decisions</a>
+    <a href="#lesson-4">4. Loops</a>
+    <a href="#lesson-5">5. Functions</a>
+    <a href="#lesson-6">6. Lists</a>
+    <a href="#lesson-7">7. Dicts</a>
+    <a href="#lesson-8">8. Classes</a>
+    <a href="#lesson-9">9. Errors</a>
+    <a href="#lesson-10">10. Final Boss</a>
+  </nav>
+
+  <!-- Tutorial Content -->
+  <div class="tutorial-content">
+
+    <!-- ============ LESSON 1 ============ -->
+    <div class="lesson" id="lesson-1">
+      <div class="lesson-number">Lesson 1</div>
+      <h2>Hello World &mdash; Your First Yeet</h2>
+      <p class="lesson-desc">
+        In Random++, you don't <em>print</em> things &mdash; you <strong>yeet</strong> them into existence.
+        Let's start with the most important program ever written.
+      </p>
+
+      <div class="concept-box">
+        <h3>The yeet Statement</h3>
+        <p>
+          <span class="keyword-highlight">yeet</span> is how you output text to the screen.
+          It replaces <span class="old-keyword">print</span> from other languages.
+          You can yeet strings, numbers, variables &mdash; basically anything.
+        </p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="filename">hello.rpp</span>
+          <a class="try-btn" href="index.html" onclick="localStorage.setItem('tryCode', this.closest('.code-block').querySelector('pre').textContent); return true;">&#9654; Try it</a>
+        </div>
+        <pre><span class="comment"># Your very first Random++ program!</span>
+<span class="keyword">yeet</span>(<span class="string">"Hello, World!"</span>)
+<span class="keyword">yeet</span>(<span class="string">"Welcome to Random++!"</span>)
+<span class="keyword">yeet</span>(<span class="string">"Let's get chaotic."</span>)</pre>
+      </div>
+
+      <div class="output-preview">
+        <div class="label">Output</div>
+Hello, World!
+Welcome to Random++!
+Let's get chaotic.
+      </div>
+
+      <div class="tip-box">
+        <strong>Tip:</strong> Lines starting with <code>#</code> are comments &mdash; they're ignored by the compiler. Use them to explain your code (or leave snarky notes).
+      </div>
+
+      <div class="challenge-box">
+        <h4>Challenge: Make it yours</h4>
+        <p>Modify the program to yeet your name and your favorite food. For example:</p>
+        <ol>
+          <li><code>yeet("My name is [your name]")</code></li>
+          <li><code>yeet("I love [food]")</code></li>
+        </ol>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============ LESSON 2 ============ -->
+    <div class="lesson" id="lesson-2">
+      <div class="lesson-number">Lesson 2</div>
+      <h2>Variables &mdash; Storing Your Stuff</h2>
+      <p class="lesson-desc">
+        Variables hold data &mdash; numbers, text, booleans, you name it.
+        Random++ has unique keywords for boolean values that keep things real.
+      </p>
+
+      <div class="concept-box">
+        <h3>Booleans &amp; None in Random++</h3>
+        <p>
+          <span class="keyword-highlight">nocap</span> = True (no cap, it's really true)<br>
+          <span class="keyword-highlight">cap</span> = False (that's cap, it's a lie)<br>
+          <span class="keyword-highlight">ghost</span> = None (it ghosted you &mdash; nothing there)
+        </p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="filename">variables.rpp</span>
+          <a class="try-btn" href="index.html" onclick="localStorage.setItem('tryCode', this.closest('.code-block').querySelector('pre').textContent); return true;">&#9654; Try it</a>
+        </div>
+        <pre><span class="comment"># Variables are created by assignment</span>
+name = <span class="string">"Random++"</span>
+version = <span class="number">1.0</span>
+is_awesome = <span class="keyword">nocap</span>
+is_boring = <span class="keyword">cap</span>
+secret = <span class="keyword">ghost</span>
+
+<span class="keyword">yeet</span>(f<span class="string">"Language: {name}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"Version: {version}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"Awesome? {is_awesome}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"Boring? {is_boring}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"Secret: {secret}"</span>)
+
+<span class="comment"># f-strings let you embed variables in text!</span>
+age = <span class="number">1</span>
+<span class="keyword">yeet</span>(f<span class="string">"{name} is {age} year(s) old and it's {is_awesome} that it slaps"</span>)</pre>
+      </div>
+
+      <div class="output-preview">
+        <div class="label">Output</div>
+Language: Random++
+Version: 1
+Awesome? True
+Boring? False
+Secret: None
+Random++ is 1 year(s) old and it's True that it slaps
+      </div>
+
+      <div class="tip-box">
+        <strong>Tip:</strong> Use <code>f"..."</code> strings (f-strings) to embed variables directly in text with <code>{curly_braces}</code>. Way cleaner than concatenation!
+      </div>
+
+      <div class="challenge-box">
+        <h4>Challenge: Bio card</h4>
+        <p>Create variables for your name, age, and whether you like pizza (<code>nocap</code> or <code>cap</code>). Then yeet a sentence using all three with an f-string.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============ LESSON 3 ============ -->
+    <div class="lesson" id="lesson-3">
+      <div class="lesson-number">Lesson 3</div>
+      <h2>Decisions &mdash; Bruh, Sus, or Nah?</h2>
+      <p class="lesson-desc">
+        Every program needs to make decisions. In Random++, you use
+        <span class="keyword-highlight">bruh</span> (if),
+        <span class="keyword-highlight">sus</span> (elif), and
+        <span class="keyword-highlight">nah</span> (else).
+      </p>
+
+      <div class="concept-box">
+        <h3>How decisions work</h3>
+        <p>
+          <span class="keyword-highlight">bruh</span> checks a condition. If it's true, the indented code runs.<br>
+          <span class="keyword-highlight">sus</span> checks another condition if the first was false.<br>
+          <span class="keyword-highlight">nah</span> runs if nothing else matched.
+        </p>
+        <p>
+          Boolean operators:
+          <span class="keyword-highlight">also</span> = and,
+          <span class="keyword-highlight">unless</span> = or,
+          <span class="keyword-highlight">nope</span> = not
+        </p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="filename">decisions.rpp</span>
+          <a class="try-btn" href="index.html" onclick="localStorage.setItem('tryCode', this.closest('.code-block').querySelector('pre').textContent); return true;">&#9654; Try it</a>
+        </div>
+        <pre><span class="comment"># Grade checker</span>
+score = <span class="number">85</span>
+
+<span class="keyword">bruh</span> score >= <span class="number">90</span>:
+    <span class="keyword">yeet</span>(<span class="string">"A - Absolute legend!"</span>)
+<span class="keyword">sus</span> score >= <span class="number">80</span>:
+    <span class="keyword">yeet</span>(<span class="string">"B - Pretty solid!"</span>)
+<span class="keyword">sus</span> score >= <span class="number">70</span>:
+    <span class="keyword">yeet</span>(<span class="string">"C - You passed... barely"</span>)
+<span class="keyword">nah</span>:
+    <span class="keyword">yeet</span>(<span class="string">"F - That's cap, try again"</span>)
+
+<span class="comment"># Boolean operators</span>
+age = <span class="number">20</span>
+has_id = <span class="keyword">nocap</span>
+
+<span class="keyword">bruh</span> age >= <span class="number">18</span> <span class="keyword">also</span> has_id:
+    <span class="keyword">yeet</span>(<span class="string">"You're in!"</span>)
+<span class="keyword">nah</span>:
+    <span class="keyword">yeet</span>(<span class="string">"Nah fam, can't let you in"</span>)</pre>
+      </div>
+
+      <div class="output-preview">
+        <div class="label">Output</div>
+B - Pretty solid!
+You're in!
+      </div>
+
+      <div class="warning-box">
+        <strong>Important:</strong> Indentation matters! Random++ uses 4 spaces to define code blocks (just like its inspiration). Don't mix tabs and spaces.
+      </div>
+
+      <div class="challenge-box">
+        <h4>Challenge: Weather advisor</h4>
+        <p>Create a variable <code>temp</code> and write bruh/sus/nah logic:</p>
+        <ul>
+          <li>Above 30: "It's hot, stay hydrated!"</li>
+          <li>Between 15 and 30: "Perfect weather!"</li>
+          <li>Below 15: "Bundle up, it's cold!"</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============ LESSON 4 ============ -->
+    <div class="lesson" id="lesson-4">
+      <div class="lesson-number">Lesson 4</div>
+      <h2>Loops &mdash; Vibe Thru &amp; Grind</h2>
+      <p class="lesson-desc">
+        Need to repeat something? Use
+        <span class="keyword-highlight">vibe</span>...<span class="keyword-highlight">thru</span> for for-loops and
+        <span class="keyword-highlight">grind</span> for while-loops.
+        <span class="keyword-highlight">bail</span> to break out,
+        <span class="keyword-highlight">skip</span> to continue.
+      </p>
+
+      <div class="concept-box">
+        <h3>Loop keywords</h3>
+        <p>
+          <span class="keyword-highlight">vibe x thru collection:</span> &mdash; iterate over items (for loop)<br>
+          <span class="keyword-highlight">grind condition:</span> &mdash; keep going while true (while loop)<br>
+          <span class="keyword-highlight">bail</span> &mdash; break out of the loop<br>
+          <span class="keyword-highlight">skip</span> &mdash; skip to next iteration
+        </p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="filename">loops.rpp</span>
+          <a class="try-btn" href="index.html" onclick="localStorage.setItem('tryCode', this.closest('.code-block').querySelector('pre').textContent); return true;">&#9654; Try it</a>
+        </div>
+        <pre><span class="comment"># Vibe thru a range</span>
+<span class="keyword">yeet</span>(<span class="string">"Counting to 5:"</span>)
+<span class="keyword">vibe</span> i <span class="keyword">thru</span> <span class="builtin">range</span>(<span class="number">1</span>, <span class="number">6</span>):
+    <span class="keyword">yeet</span>(f<span class="string">"  {i}"</span>)
+
+<span class="comment"># Vibe thru a list</span>
+fruits = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"cherry"</span>]
+<span class="keyword">vibe</span> fruit <span class="keyword">thru</span> fruits:
+    <span class="keyword">yeet</span>(f<span class="string">"I like {fruit}!"</span>)
+
+<span class="comment"># Skip even numbers, bail at 7</span>
+<span class="keyword">yeet</span>(<span class="string">"Odd numbers until 7:"</span>)
+<span class="keyword">vibe</span> n <span class="keyword">thru</span> <span class="builtin">range</span>(<span class="number">1</span>, <span class="number">20</span>):
+    <span class="keyword">bruh</span> n == <span class="number">7</span>:
+        <span class="keyword">bail</span>
+    <span class="keyword">bruh</span> n % <span class="number">2</span> == <span class="number">0</span>:
+        <span class="keyword">skip</span>
+    <span class="keyword">yeet</span>(f<span class="string">"  {n}"</span>)
+
+<span class="comment"># Grind (while loop) - countdown</span>
+<span class="keyword">yeet</span>(<span class="string">"Countdown:"</span>)
+count = <span class="number">5</span>
+<span class="keyword">grind</span> count > <span class="number">0</span>:
+    <span class="keyword">yeet</span>(f<span class="string">"  {count}..."</span>)
+    count -= <span class="number">1</span>
+<span class="keyword">yeet</span>(<span class="string">"Liftoff!"</span>)</pre>
+      </div>
+
+      <div class="output-preview">
+        <div class="label">Output</div>
+Counting to 5:
+  1
+  2
+  3
+  4
+  5
+I like apple!
+I like banana!
+I like cherry!
+Odd numbers until 7:
+  1
+  3
+  5
+Countdown:
+  5...
+  4...
+  3...
+  2...
+  1...
+Liftoff!
+      </div>
+
+      <div class="challenge-box">
+        <h4>Challenge: FizzBuzz</h4>
+        <p>The classic! Vibe thru range(1, 21) and:</p>
+        <ol>
+          <li>If divisible by 15, yeet "FizzBuzz"</li>
+          <li>If divisible by 3, yeet "Fizz"</li>
+          <li>If divisible by 5, yeet "Buzz"</li>
+          <li>Otherwise, yeet the number</li>
+        </ol>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============ LESSON 5 ============ -->
+    <div class="lesson" id="lesson-5">
+      <div class="lesson-number">Lesson 5</div>
+      <h2>Functions &mdash; Cook &amp; Serve</h2>
+      <p class="lesson-desc">
+        Functions are reusable blocks of code. In Random++, you
+        <span class="keyword-highlight">cook</span> them up and
+        <span class="keyword-highlight">serve</span> the result.
+      </p>
+
+      <div class="concept-box">
+        <h3>Function keywords</h3>
+        <p>
+          <span class="keyword-highlight">cook</span> = def (define a function)<br>
+          <span class="keyword-highlight">serve</span> = return (send back a result)<br>
+          <span class="keyword-highlight">quickmaf</span> = lambda (one-liner function)
+        </p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="filename">functions.rpp</span>
+          <a class="try-btn" href="index.html" onclick="localStorage.setItem('tryCode', this.closest('.code-block').querySelector('pre').textContent); return true;">&#9654; Try it</a>
+        </div>
+        <pre><span class="comment"># Cook up a greeting function</span>
+<span class="keyword">cook</span> greet(name):
+    <span class="keyword">serve</span> f<span class="string">"Yo {name}, welcome to Random++!"</span>
+
+<span class="keyword">yeet</span>(greet(<span class="string">"Alice"</span>))
+<span class="keyword">yeet</span>(greet(<span class="string">"Bob"</span>))
+
+<span class="comment"># Default parameters</span>
+<span class="keyword">cook</span> power(base, exp=<span class="number">2</span>):
+    <span class="keyword">serve</span> base ** exp
+
+<span class="keyword">yeet</span>(f<span class="string">"3^2 = {power(3)}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"2^10 = {power(2, 10)}"</span>)
+
+<span class="comment"># Recursion works too!</span>
+<span class="keyword">cook</span> factorial(n):
+    <span class="keyword">bruh</span> n <= <span class="number">1</span>:
+        <span class="keyword">serve</span> <span class="number">1</span>
+    <span class="keyword">serve</span> n * factorial(n - <span class="number">1</span>)
+
+<span class="keyword">yeet</span>(f<span class="string">"5! = {factorial(5)}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"10! = {factorial(10)}"</span>)
+
+<span class="comment"># Quickmaf (lambda) - one-liner functions</span>
+double = <span class="keyword">quickmaf</span> x: x * <span class="number">2</span>
+<span class="keyword">yeet</span>(f<span class="string">"Double 21 = {double(21)}"</span>)</pre>
+      </div>
+
+      <div class="output-preview">
+        <div class="label">Output</div>
+Yo Alice, welcome to Random++!
+Yo Bob, welcome to Random++!
+3^2 = 9
+2^10 = 1024
+5! = 120
+10! = 3628800
+Double 21 = 42
+      </div>
+
+      <div class="challenge-box">
+        <h4>Challenge: Temperature converter</h4>
+        <p>Cook two functions:</p>
+        <ol>
+          <li><code>cook to_celsius(f):</code> &mdash; converts Fahrenheit to Celsius: (f - 32) * 5/9</li>
+          <li><code>cook to_fahrenheit(c):</code> &mdash; converts Celsius to Fahrenheit: c * 9/5 + 32</li>
+        </ol>
+        <p>Test them: 212&deg;F should be 100&deg;C, and 0&deg;C should be 32&deg;F.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============ LESSON 6 ============ -->
+    <div class="lesson" id="lesson-6">
+      <div class="lesson-number">Lesson 6</div>
+      <h2>Lists &amp; Comprehensions</h2>
+      <p class="lesson-desc">
+        Lists store ordered collections. Random++ supports all the list methods you'd expect,
+        plus list comprehensions with <span class="keyword-highlight">vibe</span>...<span class="keyword-highlight">thru</span> syntax.
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="filename">lists.rpp</span>
+          <a class="try-btn" href="index.html" onclick="localStorage.setItem('tryCode', this.closest('.code-block').querySelector('pre').textContent); return true;">&#9654; Try it</a>
+        </div>
+        <pre><span class="comment"># Basic list operations</span>
+heroes = [<span class="string">"Batman"</span>, <span class="string">"Spider-Man"</span>, <span class="string">"Deadpool"</span>]
+heroes.append(<span class="string">"Iron Man"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"Heroes: {heroes}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"Count: {len(heroes)}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"First: {heroes[0]}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"Last: {heroes[-1]}"</span>)
+
+<span class="comment"># List comprehensions - one-liner magic!</span>
+squares = [x ** <span class="number">2</span> <span class="keyword">vibe</span> x <span class="keyword">thru</span> <span class="builtin">range</span>(<span class="number">1</span>, <span class="number">6</span>)]
+<span class="keyword">yeet</span>(f<span class="string">"Squares: {squares}"</span>)
+
+<span class="comment"># With a filter condition</span>
+evens = [x <span class="keyword">vibe</span> x <span class="keyword">thru</span> <span class="builtin">range</span>(<span class="number">1</span>, <span class="number">11</span>) <span class="keyword">bruh</span> x % <span class="number">2</span> == <span class="number">0</span>]
+<span class="keyword">yeet</span>(f<span class="string">"Evens: {evens}"</span>)
+
+<span class="comment"># Sorting</span>
+numbers = [<span class="number">42</span>, <span class="number">17</span>, <span class="number">99</span>, <span class="number">3</span>, <span class="number">56</span>]
+<span class="keyword">yeet</span>(f<span class="string">"Sorted: {sorted(numbers)}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"Sum: {sum(numbers)}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"Max: {max(numbers)}"</span>)</pre>
+      </div>
+
+      <div class="output-preview">
+        <div class="label">Output</div>
+Heroes: ['Batman', 'Spider-Man', 'Deadpool', 'Iron Man']
+Count: 4
+First: Batman
+Last: Iron Man
+Squares: [1, 4, 9, 16, 25]
+Evens: [2, 4, 6, 8, 10]
+Sorted: [3, 17, 42, 56, 99]
+Sum: 217
+Max: 99
+      </div>
+
+      <div class="tip-box">
+        <strong>Tip:</strong> List comprehension syntax: <code>[expression <span style="color:var(--purple)">vibe</span> variable <span style="color:var(--purple)">thru</span> iterable]</code>. Add <code><span style="color:var(--purple)">bruh</span> condition</code> at the end to filter!
+      </div>
+
+      <div class="challenge-box">
+        <h4>Challenge: Word lengths</h4>
+        <p>Given <code>words = ["hello", "world", "random", "plus", "plus"]</code>, use a list comprehension to create a list of word lengths, then yeet it.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============ LESSON 7 ============ -->
+    <div class="lesson" id="lesson-7">
+      <div class="lesson-number">Lesson 7</div>
+      <h2>Dictionaries &mdash; Key-Value Vibes</h2>
+      <p class="lesson-desc">
+        Dictionaries store key-value pairs. Loop through them with
+        <span class="keyword-highlight">vibe</span>...<span class="keyword-highlight">thru</span> and
+        use <code>.items()</code>, <code>.keys()</code>, <code>.values()</code>.
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="filename">dicts.rpp</span>
+          <a class="try-btn" href="index.html" onclick="localStorage.setItem('tryCode', this.closest('.code-block').querySelector('pre').textContent); return true;">&#9654; Try it</a>
+        </div>
+        <pre><span class="comment"># Create a dictionary</span>
+player = {<span class="string">"name"</span>: <span class="string">"xX_Slayer_Xx"</span>, <span class="string">"level"</span>: <span class="number">42</span>, <span class="string">"hp"</span>: <span class="number">100</span>}
+<span class="keyword">yeet</span>(f<span class="string">"Player: {player}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"Name: {player['name']}"</span>)
+
+<span class="comment"># Loop through key-value pairs</span>
+scores = {<span class="string">"Alice"</span>: <span class="number">95</span>, <span class="string">"Bob"</span>: <span class="number">87</span>, <span class="string">"Charlie"</span>: <span class="number">92</span>}
+<span class="keyword">yeet</span>(<span class="string">"Scoreboard:"</span>)
+<span class="keyword">vibe</span> name, score <span class="keyword">thru</span> scores.items():
+    <span class="keyword">yeet</span>(f<span class="string">"  {name}: {score}"</span>)
+
+<span class="comment"># Dictionary methods</span>
+<span class="keyword">yeet</span>(f<span class="string">"All names: {list(scores.keys())}"</span>)
+<span class="keyword">yeet</span>(f<span class="string">"All scores: {list(scores.values())}"</span>)
+
+<span class="comment"># Add and update</span>
+scores[<span class="string">"Diana"</span>] = <span class="number">98</span>
+<span class="keyword">yeet</span>(f<span class="string">"Updated: {scores}"</span>)</pre>
+      </div>
+
+      <div class="output-preview">
+        <div class="label">Output</div>
+Player: {'name': 'xX_Slayer_Xx', 'level': 42, 'hp': 100}
+Name: xX_Slayer_Xx
+Scoreboard:
+  Alice: 95
+  Bob: 87
+  Charlie: 92
+All names: ['Alice', 'Bob', 'Charlie']
+All scores: [95, 87, 92]
+Updated: {'Alice': 95, 'Bob': 87, 'Charlie': 92, 'Diana': 98}
+      </div>
+
+      <div class="challenge-box">
+        <h4>Challenge: Inventory system</h4>
+        <p>Create a dictionary representing a game inventory (e.g., <code>{"sword": 1, "potion": 5, "gold": 100}</code>). Add a new item, then loop through and yeet each item with its quantity.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============ LESSON 8 ============ -->
+    <div class="lesson" id="lesson-8">
+      <div class="lesson-number">Lesson 8</div>
+      <h2>Blueprints &mdash; OOP Time</h2>
+      <p class="lesson-desc">
+        Object-oriented programming uses
+        <span class="keyword-highlight">blueprint</span> instead of class.
+        Think of blueprints as templates for creating objects.
+      </p>
+
+      <div class="concept-box">
+        <h3>OOP keywords</h3>
+        <p>
+          <span class="keyword-highlight">blueprint</span> = class (define a template)<br>
+          <code>cook __init__(self, ...):</code> = constructor<br>
+          <code>self</code> = reference to the current object
+        </p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="filename">oop.rpp</span>
+          <a class="try-btn" href="index.html" onclick="localStorage.setItem('tryCode', this.closest('.code-block').querySelector('pre').textContent); return true;">&#9654; Try it</a>
+        </div>
+        <pre><span class="comment"># Define a blueprint (class)</span>
+<span class="keyword">blueprint</span> Pet:
+    <span class="keyword">cook</span> __init__(self, name, species):
+        self.name = name
+        self.species = species
+        self.energy = <span class="number">100</span>
+
+    <span class="keyword">cook</span> greet(self):
+        <span class="keyword">serve</span> f<span class="string">"{self.name} the {self.species} says hi!"</span>
+
+    <span class="keyword">cook</span> play(self):
+        self.energy -= <span class="number">20</span>
+        <span class="keyword">serve</span> f<span class="string">"{self.name} played! Energy: {self.energy}"</span>
+
+<span class="comment"># Create objects from the blueprint</span>
+cat = Pet(<span class="string">"Whiskers"</span>, <span class="string">"Cat"</span>)
+dog = Pet(<span class="string">"Rex"</span>, <span class="string">"Dog"</span>)
+
+<span class="keyword">yeet</span>(cat.greet())
+<span class="keyword">yeet</span>(dog.greet())
+<span class="keyword">yeet</span>(cat.play())
+<span class="keyword">yeet</span>(cat.play())
+<span class="keyword">yeet</span>(f<span class="string">"{cat.name}'s energy: {cat.energy}"</span>)</pre>
+      </div>
+
+      <div class="output-preview">
+        <div class="label">Output</div>
+Whiskers the Cat says hi!
+Rex the Dog says hi!
+Whiskers played! Energy: 80
+Whiskers played! Energy: 60
+Whiskers's energy: 60
+      </div>
+
+      <div class="challenge-box">
+        <h4>Challenge: Bank account</h4>
+        <p>Create a <code>blueprint BankAccount</code> with:</p>
+        <ol>
+          <li>Constructor that takes <code>owner</code> and starts with <code>balance = 0</code></li>
+          <li>A <code>deposit(amount)</code> method</li>
+          <li>A <code>withdraw(amount)</code> method (check if enough balance!)</li>
+          <li>A <code>status()</code> method that serves the balance info</li>
+        </ol>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============ LESSON 9 ============ -->
+    <div class="lesson" id="lesson-9">
+      <div class="lesson-number">Lesson 9</div>
+      <h2>Error Handling &mdash; YOLO / Oof</h2>
+      <p class="lesson-desc">
+        Things go wrong. Handle it gracefully with
+        <span class="keyword-highlight">yolo</span> (try),
+        <span class="keyword-highlight">oof</span> (except), and
+        <span class="keyword-highlight">anyway</span> (finally).
+      </p>
+
+      <div class="concept-box">
+        <h3>Error handling keywords</h3>
+        <p>
+          <span class="keyword-highlight">yolo</span> = try (attempt risky code)<br>
+          <span class="keyword-highlight">oof</span> = except (catch errors)<br>
+          <span class="keyword-highlight">anyway</span> = finally (always runs)<br>
+          <span class="keyword-highlight">tantrum</span> = raise (throw an error)<br>
+          <span class="keyword-highlight">betcha</span> = assert (verify a condition)
+        </p>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="filename">errors.rpp</span>
+          <a class="try-btn" href="index.html" onclick="localStorage.setItem('tryCode', this.closest('.code-block').querySelector('pre').textContent); return true;">&#9654; Try it</a>
+        </div>
+        <pre><span class="comment"># Safe division with yolo/oof</span>
+<span class="keyword">cook</span> safe_divide(a, b):
+    <span class="keyword">yolo</span>:
+        result = a / b
+        <span class="keyword">serve</span> f<span class="string">"{a} / {b} = {result}"</span>
+    <span class="keyword">oof</span> Exception <span class="keyword">aka</span> e:
+        <span class="keyword">serve</span> f<span class="string">"Oof! Can't divide: {e}"</span>
+
+<span class="keyword">yeet</span>(safe_divide(<span class="number">10</span>, <span class="number">3</span>))
+<span class="keyword">yeet</span>(safe_divide(<span class="number">10</span>, <span class="number">0</span>))
+
+<span class="comment"># Custom error with tantrum</span>
+<span class="keyword">cook</span> check_age(age):
+    <span class="keyword">bruh</span> age < <span class="number">0</span>:
+        <span class="keyword">tantrum</span> <span class="string">"Age can't be negative, that's sus"</span>
+    <span class="keyword">bruh</span> age < <span class="number">13</span>:
+        <span class="keyword">serve</span> <span class="string">"Too young for this app"</span>
+    <span class="keyword">serve</span> <span class="string">"Welcome in!"</span>
+
+<span class="keyword">yeet</span>(check_age(<span class="number">25</span>))
+<span class="keyword">yolo</span>:
+    <span class="keyword">yeet</span>(check_age(-<span class="number">5</span>))
+<span class="keyword">oof</span> Exception <span class="keyword">aka</span> e:
+    <span class="keyword">yeet</span>(f<span class="string">"Caught: {e}"</span>)</pre>
+      </div>
+
+      <div class="output-preview">
+        <div class="label">Output</div>
+10 / 3 = 3.3333333333333335
+Oof! Can't divide: ZeroDivisionError: division by zero
+Welcome in!
+Caught: Age can't be negative, that's sus
+      </div>
+
+      <div class="tip-box">
+        <strong>Tip:</strong> Use <code><span style="color:var(--purple)">aka</span></code> (as) to give the caught exception a name so you can yeet the error message.
+      </div>
+
+      <div class="challenge-box">
+        <h4>Challenge: Bulletproof input</h4>
+        <p>Write a function <code>cook safe_sqrt(n):</code> that:</p>
+        <ol>
+          <li>Throws a tantrum if <code>n</code> is negative</li>
+          <li>Returns the square root otherwise (use <code>n ** 0.5</code>)</li>
+        </ol>
+        <p>Then call it with both valid and invalid inputs inside a yolo/oof block.</p>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ============ LESSON 10 ============ -->
+    <div class="lesson" id="lesson-10">
+      <div class="lesson-number">Lesson 10 &mdash; Final Boss</div>
+      <h2>Putting It All Together</h2>
+      <p class="lesson-desc">
+        Time to combine everything you've learned into one program.
+        Let's build a mini RPG character system!
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="filename">final_boss.rpp</span>
+          <a class="try-btn" href="index.html" onclick="localStorage.setItem('tryCode', this.closest('.code-block').querySelector('pre').textContent); return true;">&#9654; Try it</a>
+        </div>
+        <pre><span class="comment"># Mini RPG Character System</span>
+<span class="keyword">blueprint</span> Character:
+    <span class="keyword">cook</span> __init__(self, name, role, hp):
+        self.name = name
+        self.role = role
+        self.hp = hp
+        self.max_hp = hp
+        self.inventory = []
+        self.xp = <span class="number">0</span>
+
+    <span class="keyword">cook</span> status(self):
+        <span class="keyword">serve</span> f<span class="string">"[{self.role}] {self.name} | HP: {self.hp}/{self.max_hp} | XP: {self.xp}"</span>
+
+    <span class="keyword">cook</span> take_damage(self, dmg):
+        self.hp -= dmg
+        <span class="keyword">bruh</span> self.hp < <span class="number">0</span>:
+            self.hp = <span class="number">0</span>
+        <span class="keyword">serve</span> f<span class="string">"{self.name} took {dmg} damage! HP: {self.hp}"</span>
+
+    <span class="keyword">cook</span> heal(self, amount):
+        self.hp += amount
+        <span class="keyword">bruh</span> self.hp > self.max_hp:
+            self.hp = self.max_hp
+        <span class="keyword">serve</span> f<span class="string">"{self.name} healed! HP: {self.hp}"</span>
+
+    <span class="keyword">cook</span> gain_xp(self, amount):
+        self.xp += amount
+        <span class="keyword">serve</span> f<span class="string">"{self.name} gained {amount} XP! Total: {self.xp}"</span>
+
+    <span class="keyword">cook</span> loot(self, item):
+        self.inventory.append(item)
+        <span class="keyword">serve</span> f<span class="string">"{self.name} picked up: {item}"</span>
+
+<span class="comment"># Create heroes</span>
+warrior = Character(<span class="string">"Bruh Knight"</span>, <span class="string">"Warrior"</span>, <span class="number">120</span>)
+mage = Character(<span class="string">"Yeet Wizard"</span>, <span class="string">"Mage"</span>, <span class="number">80</span>)
+
+<span class="keyword">yeet</span>(<span class="string">"=== Party Status ==="</span>)
+<span class="keyword">yeet</span>(warrior.status())
+<span class="keyword">yeet</span>(mage.status())
+
+<span class="comment"># Battle simulation</span>
+<span class="keyword">yeet</span>(<span class="string">"\n=== Battle! ==="</span>)
+<span class="keyword">yeet</span>(warrior.take_damage(<span class="number">30</span>))
+<span class="keyword">yeet</span>(mage.take_damage(<span class="number">15</span>))
+<span class="keyword">yeet</span>(warrior.heal(<span class="number">20</span>))
+
+<span class="comment"># Loot phase</span>
+<span class="keyword">yeet</span>(<span class="string">"\n=== Loot! ==="</span>)
+loot_table = [<span class="string">"Sword of Yeeting"</span>, <span class="string">"Shield of Nocap"</span>, <span class="string">"Potion of Grind"</span>]
+<span class="keyword">vibe</span> i, item <span class="keyword">thru</span> <span class="builtin">enumerate</span>(loot_table):
+    <span class="keyword">bruh</span> i % <span class="number">2</span> == <span class="number">0</span>:
+        <span class="keyword">yeet</span>(warrior.loot(item))
+    <span class="keyword">nah</span>:
+        <span class="keyword">yeet</span>(mage.loot(item))
+
+<span class="comment"># XP gain</span>
+<span class="keyword">yeet</span>(<span class="string">"\n=== XP Gained ==="</span>)
+party = [warrior, mage]
+<span class="keyword">vibe</span> hero <span class="keyword">thru</span> party:
+    <span class="keyword">yeet</span>(hero.gain_xp(<span class="number">50</span>))
+
+<span class="comment"># Final status</span>
+<span class="keyword">yeet</span>(<span class="string">"\n=== Final Status ==="</span>)
+<span class="keyword">vibe</span> hero <span class="keyword">thru</span> party:
+    <span class="keyword">yeet</span>(hero.status())
+    <span class="keyword">yeet</span>(f<span class="string">"  Inventory: {hero.inventory}"</span>)</pre>
+      </div>
+
+      <div class="output-preview">
+        <div class="label">Output</div>
+=== Party Status ===
+[Warrior] Bruh Knight | HP: 120/120 | XP: 0
+[Mage] Yeet Wizard | HP: 80/80 | XP: 0
+
+=== Battle! ===
+Bruh Knight took 30 damage! HP: 90
+Yeet Wizard took 15 damage! HP: 65
+Bruh Knight healed! HP: 110
+
+=== Loot! ===
+Bruh Knight picked up: Sword of Yeeting
+Yeet Wizard picked up: Shield of Nocap
+Bruh Knight picked up: Potion of Grind
+
+=== XP Gained ===
+Bruh Knight gained 50 XP! Total: 50
+Yeet Wizard gained 50 XP! Total: 50
+
+=== Final Status ===
+[Warrior] Bruh Knight | HP: 110/120 | XP: 50
+  Inventory: ['Sword of Yeeting', 'Potion of Grind']
+[Mage] Yeet Wizard | HP: 65/80 | XP: 50
+  Inventory: ['Shield of Nocap']
+      </div>
+
+      <div class="challenge-box">
+        <h4>Final Challenge: Extend the RPG!</h4>
+        <p>You've learned all the core concepts. Now extend this system:</p>
+        <ol>
+          <li>Add an <code>attack(self, target)</code> method that deals damage based on XP</li>
+          <li>Add a <code>blueprint Boss(Character)</code> with inheritance</li>
+          <li>Use <code>yolo/oof</code> to handle edge cases (negative HP, etc.)</li>
+          <li>Create a battle loop with <code>grind</code> that runs until someone's HP hits 0</li>
+        </ol>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Quick Reference -->
+    <div class="lesson" id="reference">
+      <div class="lesson-number">Quick Reference</div>
+      <h2>Complete Keyword Cheat Sheet</h2>
+      <p class="lesson-desc">Every Random++ keyword and what it replaces.</p>
+
+      <table class="keyword-table">
+        <thead>
+          <tr><th>Random++</th><th>Replaces</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>yeet</td><td>print</td><td>Output to screen</td></tr>
+          <tr><td>askbro</td><td>input</td><td>Get user input</td></tr>
+          <tr><td>cook</td><td>def</td><td>Define a function</td></tr>
+          <tr><td>serve</td><td>return</td><td>Return a value</td></tr>
+          <tr><td>blueprint</td><td>class</td><td>Define a class</td></tr>
+          <tr><td>bruh</td><td>if</td><td>Conditional check</td></tr>
+          <tr><td>sus</td><td>elif</td><td>Else-if check</td></tr>
+          <tr><td>nah</td><td>else</td><td>Default branch</td></tr>
+          <tr><td>vibe</td><td>for</td><td>For loop</td></tr>
+          <tr><td>thru</td><td>in</td><td>Iterate through</td></tr>
+          <tr><td>grind</td><td>while</td><td>While loop</td></tr>
+          <tr><td>bail</td><td>break</td><td>Exit loop</td></tr>
+          <tr><td>skip</td><td>continue</td><td>Next iteration</td></tr>
+          <tr><td>chill</td><td>pass</td><td>Do nothing</td></tr>
+          <tr><td>yolo</td><td>try</td><td>Attempt risky code</td></tr>
+          <tr><td>oof</td><td>except</td><td>Catch errors</td></tr>
+          <tr><td>anyway</td><td>finally</td><td>Always execute</td></tr>
+          <tr><td>tantrum</td><td>raise</td><td>Throw error</td></tr>
+          <tr><td>betcha</td><td>assert</td><td>Assert condition</td></tr>
+          <tr><td>steal</td><td>import</td><td>Import module</td></tr>
+          <tr><td>yoink</td><td>from</td><td>Import from</td></tr>
+          <tr><td>aka</td><td>as</td><td>Alias</td></tr>
+          <tr><td>quickmaf</td><td>lambda</td><td>Anonymous function</td></tr>
+          <tr><td>nocap</td><td>True</td><td>Boolean true</td></tr>
+          <tr><td>cap</td><td>False</td><td>Boolean false</td></tr>
+          <tr><td>ghost</td><td>None</td><td>Null value</td></tr>
+          <tr><td>also</td><td>and</td><td>Logical AND</td></tr>
+          <tr><td>unless</td><td>or</td><td>Logical OR</td></tr>
+          <tr><td>nope</td><td>not</td><td>Logical NOT</td></tr>
+          <tr><td>literally</td><td>is</td><td>Identity check</td></tr>
+          <tr><td>toss</td><td>del</td><td>Delete variable</td></tr>
+          <tr><td>worldwide</td><td>global</td><td>Global scope</td></tr>
+          <tr><td>using</td><td>with</td><td>Context manager</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>You've completed the Random++ tutorial! Now go <a href="index.html">cook some code</a>.</p>
+  </div>
+
+  <script>
+    // Load "Try it" code into the compiler
+    document.querySelectorAll('.try-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const codeBlock = this.closest('.code-block');
+        const code = codeBlock.querySelector('pre').textContent;
+        localStorage.setItem('tryCode', code);
+      });
+    });
+  </script>
+
+</body>
+</html>
